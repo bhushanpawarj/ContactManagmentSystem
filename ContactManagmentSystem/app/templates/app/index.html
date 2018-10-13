@@ -1,33 +1,287 @@
 {% extends "app/layout.html" %}
 
 {% block content %}
+<style>
+      /* Begin -Adding it for floating scroll button */
+    #scroll {
+                position: fixed;
+                right: 10px;
+                bottom: 10px;
+                cursor: pointer;
+                width: 50px;
+                height: 50px;
+                background-color: #1a0937;
+        text-indent: -9999px;
+                display: none;
+                -webkit-border-radius: 60px;
+                -moz-border-radius: 60px;
+                border-radius: 60px;
+                z-index: 99999;
+            }
 
-<div class="jumbotron">
-    <h1>Django</h1>
-    <p class="lead">Django is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://www.djangoproject.com/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-</div>
+    #scroll span {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -8px;
+            margin-top: -12px;
+            height: 0;
+            width: 0;
+            border: 8px solid transparent;
+            border-bottom-color: #ffffff;
+        }
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Django gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://www.djangobook.com/en/2.0/index.html">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p><a class="btn btn-default" href="https://pypi.org/">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
-    </div>
-</div>
+    #scroll:hover {
+        background-color: #e74c3c;
+            opacity: 1;
+            filter: "alpha(opacity=100)";
+            -ms-filter: "alpha(opacity=100)";
+        }
+                body {
+                    background-color: #f5f5f5;
+                }
+    
+    /* End -Adding it for floating scroll button */
+    </style>
+ 
 
+  <!--Begin--Scroll to top button -->       
+ <a href="#" id="scroll" style="display: none;"> <span></span></a>
+ <!--End--Scroll to top button -->      
+ <div class="card p-4">
+        <div class=" row">
+        <div class="col-xl-6">
+            <h2>List Of Contacts</h2>
+        </div>
+        <div class="col-xl-6">
+            <a role="button"  class="btn btn-secondary float-right" href="{%url 'NewContact' %}"><i class="fas fa-user-plus"></i> Add New</a>
+        </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-xl-12" id="demo">
+             <!--Begin dev extreme grid -->
+            <div class="demo-container">
+                <div id="data-grid-demo">
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+             <!--End dev extreme grid -->
+
+
+            </div>
+        </div>
+     </div>
+<!--Begin -- Edit or update Contact-->
+
+<div class="card p-4 mt-2" style="display:none" id="editcard">
+     <div class=" row">
+        <div class="col-xl-6">
+            <h2>Updating Contact for ID :  <span id="contact_id"></span></h2>
+        </div>
+        </div>
+        <hr/>
+        <div class=" row">
+            <div class="col-xl-12">
+                <div class="row">
+                    <div class="col-xl-12 ">
+                        <!--Begin -Include partial layout for contact update-->
+                            <h2>Contact Information</h2>
+                            <hr/>
+                              <div class="row">
+                                <div class="col-xl-4 pt-2">
+                                  <input type="text" class="form-control" placeholder="First name">
+                                </div>
+                                <div class="col-xl-4 pt-2">
+                                  <input type="text" class="form-control" placeholder="Middle name">
+                                </div>
+                                <div class="col-xl-4 pt-2">
+                                  <input type="text" class="form-control" placeholder="Last name">
+                                </div>
+                              </div>
+                        <!--End-Include partial layout for contact update-->
+                    </div>
+                    <div class="col-xl-12 ">
+                         <!--Begin -Include partial layout for Address update-->
+                            <h2>Address Information</h2>
+                            <hr/>
+                              <div class="row">
+                                  <div class="col-xl-12">
+                                      <table class="table table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Address Type</th>
+                                              <th scope="col">Address</th>
+                                              <th scope="col">State</th>
+                                              <th scope="col">City</th>
+                                              <th scope="col">Zip</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                               <td>
+                                                    <select class="form-control">
+                                                      <option>Address Type</option>
+                                                     <option>Home</option>
+                                                     <option>Work</option>
+                                                      <option>Other</option>
+                                                  </select>
+                                               </td>
+                                              <td>
+                                                <input type="text" class="form-control" placeholder="Address">
+                                              </td>
+                                              <td>
+                                               <input type="text" class="form-control" placeholder="State">
+                                              </td>
+                                              <td>
+                                                <input type="text" class="form-control" placeholder="City">
+                                              </td>
+                                                <td>
+                                                    <input type="text" class="form-control" placeholder="Zip">
+                                                </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                  </div>
+                              </div>
+                         <!--End-Include partial layout for Address update-->
+                    </div>
+                    <div class="col-xl-12">
+                          <!--Begin -Include partial layout for Phone update-->
+                         <h2>Date Information</h2>
+                            <hr/>
+                              <div class="row">
+                                  <div class="col-xl-12">
+                                    <table class="table table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Date Type</th>
+                                              <th scope="col">Date</th>
+                                            
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                               <td>
+                                               <select class="form-control">
+                                                  <option>Date Type</option>
+                                                 <option>Birhdate</option>
+                                                 <option>Other</option>
+                                              </select>
+                                               </td>
+                                              <td>
+                                                <input type="text" class="form-control" placeholder="Date">
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table> 
+                                      </div>
+                              </div>
+                         <!--End-Include partial layout for Phone update-->
+                    </div>
+                    <div class="col-xl-12">
+                         <!--Begin--Partial View for Date -->
+                          <h2>Phone Information</h2>
+                            <hr/>
+                              <div class="row">
+                                  <div class="col-xl-12">
+                                    <table class="table table-bordered">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Phone Type</th>
+                                              <th scope="col">Area Code</th>
+                                              <th scope="col">Phone</th>
+                                        
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                               <td>
+                                               <select class="form-control">
+                                                  <option>Phone Type</option>
+                                                 <option>Home</option>
+                                                 <option>Work</option>
+                                                 <option>Cell</option>
+                                              </select>
+                                               </td>
+                                              <td>
+                                                <input type="text" class="form-control" placeholder="Area Code">
+                                              </td>
+                                              <td>
+                                                <input type="text" class="form-control" placeholder="Phone">
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table> 
+                                      </div>
+                              </div>
+                        <!--End--Partial View for Date -->
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-xl-12">
+                    <button type="button" class="btn btn-secondary float-right" id="{{contact.id  }}"><i class="fas fa-save"></i> Save</button>
+                </div>
+                </div>
+            </div>
+        </div>
+     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+<script>
+  $(function(){
+   $(function(){
+       $("#gridContainer").dxDataGrid({
+           dataSource: '/GetContactsData',
+        keyExpr: "id",
+        showBorders: true,
+        paging: {
+            enabled: false
+        },
+        editing: {
+            mode: "form",
+            allowUpdating: true
+        },
+       paging: {
+            pageSize: 10
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [5, 10, 20],
+            showInfo: true
+        },
+        columns: [  {
+                dataField: "Fname",
+                caption: "First Name",
+            }, {
+                dataField: "Lname",
+                caption: "Last Name",
+               }]
+        ,onRowUpdating: function(e) {
+            //Call AJAX to store the data 
+
+            var toUpdate = e.newData;
+            toUpdate.csrfmiddlewaretoken=$('input[name=csrfmiddlewaretoken]').val()
+            console.log(toUpdate);
+
+            $.ajax({
+                url: '/UpdateAddress/',
+                type: 'POST',
+                data: toUpdate,
+                //dataType: 'json',
+                success: function (data) {
+                    alert("Address Saved Successfully" + data.SaveOrNot);
+                },
+                error: function () {
+                    alert("Fail to save ")
+
+                }
+
+            });
+
+        },
+    });
+});
+});
+    </script>
+<!-- End Edit/UPdate contact-->
 {% endblock %}

@@ -30,8 +30,12 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="app\admin.py" />
     <Compile Include="app\forms.py" />
     <Compile Include="app\models.py" />
+    <Compile Include="app\serializers.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="app\tests.py" />
     <Compile Include="app\views.py" />
     <Compile Include="app\__init__.py" />
@@ -48,13 +52,29 @@
     <Folder Include="app\static\" />
     <Folder Include="app\static\app\" />
     <Folder Include="app\static\app\content\" />
+    <Folder Include="app\static\app\dxtreme\icons\" />
     <Folder Include="app\static\app\fonts\" />
+    <Folder Include="app\static\app\dxtreme\" />
     <Folder Include="app\static\app\scripts\" />
     <Folder Include="app\templates\" />
     <Folder Include="app\templates\app\" />
     <Folder Include="ContactManagmentSystem\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="app\static\app\dxtreme\dx.all.js" />
+    <Content Include="app\static\app\dxtreme\dx.common.css" />
+    <Content Include="app\static\app\dxtreme\dx.light.compact.css" />
+    <Content Include="app\static\app\dxtreme\dx.light.css" />
+    <Content Include="app\static\app\dxtreme\icons\dxicons.ttf" />
+    <Content Include="app\static\app\dxtreme\icons\dxicons.woff" />
+    <Content Include="app\static\app\dxtreme\icons\dxiconsios.ttf" />
+    <Content Include="app\static\app\dxtreme\icons\dxiconsios.woff" />
+    <Content Include="app\static\app\dxtreme\jszip.js" />
+    <Content Include="app\static\app\dxtreme\Site.dx.css" />
+    <Content Include="app\static\app\scripts\pagination.js" />
+    <Content Include="app\templates\app\ContactEdit.html" />
+    <Content Include="app\templates\app\CreateContactForm.html" />
+    <Content Include="app\templates\app\Delete_Contact_Confirm.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />
