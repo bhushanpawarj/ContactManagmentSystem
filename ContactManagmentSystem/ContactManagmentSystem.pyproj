@@ -72,9 +72,11 @@
     <Content Include="app\static\app\dxtreme\jszip.js" />
     <Content Include="app\static\app\dxtreme\Site.dx.css" />
     <Content Include="app\static\app\scripts\pagination.js" />
+    <Content Include="app\templates\app\AddOrUpdateAddress.html" />
     <Content Include="app\templates\app\ContactEdit.html" />
     <Content Include="app\templates\app\CreateContactForm.html" />
     <Content Include="app\templates\app\Delete_Contact_Confirm.html" />
+    <Content Include="app\templates\app\index - Copy.html" />
     <Content Include="requirements.txt" />
     <Content Include="db.sqlite3" />
     <Content Include="app\static\app\content\bootstrap.css" />

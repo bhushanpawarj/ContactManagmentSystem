@@ -1,0 +1,9 @@
+﻿{% extends "app/layout.html" %}
+{% block content %}
+<form method="post">
+    {% csrf_token%}
+{{ form}}
+    <button type="submit">Save</button>
+
+    </form>
+{% endblock%}

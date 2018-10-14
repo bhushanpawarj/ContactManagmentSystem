@@ -9,7 +9,7 @@ from .models import Contacts,Address,Phone,Date
 class ContactForm(forms.ModelForm):
     class Meta:
         model=Contacts
-        fields =['Fname' ,'Mname' ,'Lname']
+        fields =['id','Fname' ,'Mname' ,'Lname']
 
         def __init__(self ,*args,**kwargs):
             super(ContactForm,self).__init__(*args,**kwargs)
@@ -20,7 +20,7 @@ class ContactForm(forms.ModelForm):
 class AddressForm(forms.ModelForm):
     class Meta:
         model=Address
-        fields =[ 'id' , 'Address_type' ,'Address','City','State','Zip']
+        fields =[ 'Contact_id','id' , 'Address_type' ,'Address','City','State','Zip']
 
 class PhoneForm(forms.ModelForm):
     class Meta:

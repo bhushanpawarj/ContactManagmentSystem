@@ -45,88 +45,30 @@
     </style>
  
 
-<!--Begin --Master detail view to display the contact and all its address phones dates in one place -->
- 
-<!--End -- Master detail view to display the contact and all its address phones dates in one place -->
-
-
   <!--Begin--Scroll to top button -->       
  <a href="#" id="scroll" style="display: none;"> <span></span></a>
  <!--End--Scroll to top button -->      
  <div class="card p-4">
         <div class=" row">
-        <div class="col-xl-3">
+        <div class="col-xl-6">
             <h2>List Of Contacts</h2>
         </div>
-        <div class="col-xl-8">
-                <form class="form-inline " action="" method="GET">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{request.GET.query}}">
-                  <button class="btn btn-outline-success " type="submit" >Search</button>
-                </form>
-         </div>
-        <div class="col-xl-1">
+        <div class="col-xl-6">
             <a role="button"  class="btn btn-secondary float-right" href="{%url 'NewContact' %}"><i class="fas fa-user-plus"></i> Add New</a>
         </div>
         </div>
         <hr />
         <div class="row">
             <div class="col-xl-12" id="demo">
-                <!--Begin --Table for Listing contacts-->
-                <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th scope="col">First Name</th>
-                          {#<th scope="col">Mname</th>#}
-                          <th scope="col">Middle  Name</th>
-                            <th scope="col">Last Name </th>
-                            <th scope="col">Address </th>
-                            <th scope="col">Phones </th>
-                            <th scope="col">Dates </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for contact in AllContacts %}
-                            <tr>
-                              <td >{{ contact.Fname }}</td> 
-                              <td>{{ contact.Mname }}</td>
-                              <td >{{ contact.Lname }}</td>
-                             <!--For Address Lop-->
-                                <td >{% with contact.addresses.all as addresses %}
-                                        {% for add in addresses %}
-                                          <span>  {{ add.Address }} , </span>
-                                            {% empty %}
-                                            ''
-                                        {% endfor %}
-                                    {% endwith %}
-                                </td>
-                                <!--For phones loop-->
-                                   <td >{% with contact.phones.all as phones %}
-                                        {% for phone in phones %}
-                                          <span> {{phone.Area_code}}-{{ phone.Number }} , </span>
-                                            {% empty %}
-                                            ''
-                                        {% endfor %}
-                                    {% endwith %}
-                                </td>
-                                <!--For dates loop-->
-                                <td >{% with contact.dates.all as dates %}
-                                        {% for date in dates %}
-                                          <span> {{ date.Date }} , </span>
-                                            {% empty %}
-                                            ''
-                                        {% endfor %}
-                                    {% endwith %}
-                                </td>
-                             
-                               <td style="width:5%"> <a role="button" target="_blank" href="{% url 'UpdateContact' contact.id %}" class="btn btn-secondary edit" id="{{ contact.id  }}"><i class="fas fa-user-edit"></i> Edit</a></td>
+             <!--Begin dev extreme grid -->
+            <div class="demo-container">
+                <div id="data-grid-demo">
+                    <div id="gridContainer"></div>
+                </div>
+            </div>
+             <!--End dev extreme grid -->
 
-                            </tr>
-                        {% endfor %}
-                      </tbody>
-                </table>
-                <!--End --Table for Listing contacts-->
-                <!--Begin Pagination-->
-                
+
             </div>
         </div>
      </div>
@@ -285,5 +227,86 @@
         </div>
      </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
+<script>
+       var data ;
+          var   keyGlobal;
+  $(function(){
+   $(function(){
+       $("#gridContainer").dxDataGrid({
+           dataSource: 'GetContactsData',
+            keyExpr: "id",
+        showBorders: true,
+        paging: {
+            enabled: false
+        },
+        editing: {
+            mode: "form",
+            allowUpdating: true
+        },
+       paging: {
+            pageSize: 10
+        },
+        pager: {
+            showPageSizeSelector: true,
+            allowedPageSizes: [5, 10, 20],
+            showInfo: true
+        },
+           columns: [
+                 {
+                dataField: "id",
+                caption: "Contact ID",
+            },       {
+                dataField: "Fname",
+                caption: "First Name",
+            }, {
+                dataField: "Lname",
+                caption: "Last Name",
+               }]
+        ,onRowUpdating: function(e) {
+            //Call AJAX to store the data 
+                    UpdateData = e;
+                    UpdateData.csrfmiddlewaretoken=$('input[name=csrfmiddlewaretoken]').val()
+    var csrf_value=$('input[name=csrfmiddlewaretoken]').val();
+            var contact = e.newData;
+            var Fname = UpdateData.newData["Fname"]
+            var Mname = UpdateData.newData["Mname"]
+            var Lname = UpdateData.newData["Lname"]
+            if (Fname == undefined) {
+                Fname=UpdateData.oldData["Fname"]
+            }
+            if (Mname == undefined || Mname == "" || Mname==null) {
+                Mname=UpdateData.oldData["Mname"]
+            }
+            if (Lname == undefined) {
+               Lname=UpdateData.oldData["Lname"]
+            }
+                    //contact= JSON.stringify(contact)
+                    try {
+                        var ID = e.key.id;
+                    }
+                    catch (err) {
+                        var ID = 0;
+            }
+            console.log("ID is :  "+ID)
+
+          
+            
+            $.ajax({
+                url: 'UpdateContactsData/' + ID + "/" + Fname + "/" + Mname + "/" + Lname + "/" + csrf_value,
+                type: 'POST',
+                data: {
+                    ID: ID, Fname: Fname, Mname: Mname, Lname: Lname},
+                traditional: true,
+                //dataType: 'json',
+                success: function(result){
+                    alert("Successfull");
+                    }   
+                }); 
+
+        },
+    });
+});
+});
+    </script>
 <!-- End Edit/UPdate contact-->
 {% endblock %}

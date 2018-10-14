@@ -45,9 +45,16 @@
                         <!--End-Include partial layout for contact update-->
                     </div>
                     <div class="col-xl-12 ">
-                            <h2>Address Information</h2>
+                           <div class="row">
+                        <div class="col-xl-6"> 
+                               <h2>Address Information</h2>
+                            </div>
+                        <div class="col-xl-6">
+                          <a role="button"  class="btn btn-secondary float-right" href="{%url 'NewAddress'  %}"><i class="fas fa-user-plus"></i> Add New Address</a> 
+                        </div>
+                           </div>
                             <hr/>
-                <table class="table table-bordered">
+                           <table class="table table-bordered">
                       <thead>
                         <tr>
                           <th scope="col">Address Id</th>
@@ -61,12 +68,10 @@
                       </thead>
                       <tbody>
                         {% for Address in AllAddress %}
-                          {% csrf_token%}
                             <tr>
                               <td ><input type="text" class="form-control AddressId" value="{{ Address.id }}" disabled></td> 
                               <td >
-                        
-                                  <select class="form-control Address_type" >
+                                  <select class="form-control Address_type" disabled>
                                   {% ifequal Address.Address_type 'Address Type'  %}
                                    <option selected>Address Type</option>
                                   {%else %}
@@ -90,19 +95,18 @@
 
                                  </select>
                               </td> 
-                              <td ><input type="text" class="form-control Address" value="{{ Address.Address }}"></td> 
-                              <td ><input type="text" class="form-control City" value="{{ Address.City }}"></td> 
-                              <td ><input type="text" class="form-control State" value="{{ Address.State }}"></td> 
-                              <td ><input type="text" class="form-control Zip" value="{{ Address.Zip }}"></td> 
+                              <td >{{ Address.Address }}</td> 
+                              <td >{{ Address.City }}</td> 
+                              <td >{{ Address.State }}</td> 
+                              <td >{{ Address.Zip }}</td> 
                               <td >
-                                <a role="button"  href="#" class="btn btn-secondary " id="{{ Address.id  }}" onclick="updateAddress(this)">Save</a>
-                                <a role="button"  href="#" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
+                               <a role="button" target="_blank" href="{% url 'UpdateAddress' Address.id %}" class="btn btn-secondary edit" id="{{ Address.id  }}"><i class="fas fa-user-edit"></i> Edit</a>
+                                <a role="button"  href="{% url 'DeleteAddress' Address.id  Contact.id %}" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
                               </td> 
                             </tr>
                         {% endfor %}
                       </tbody>
                 </table>
-
                     </div>
                     <div class="col-xl-12">
                           <!--Begin -Include partial layout for Phone update-->

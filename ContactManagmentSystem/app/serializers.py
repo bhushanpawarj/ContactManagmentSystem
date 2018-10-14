@@ -4,11 +4,11 @@ from .models import Contacts,Address
 class ContactsSerializer(serializers.ModelSerializer):
     class Meta:
         model=Contacts
-        fields=('Fname','Mname','Lname')
+        fields=('id','Fname','Mname','Lname')
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model=Address
-        fields=('Address','State','City')
+        fields=('Address_Id','Address','State','City')
 
 

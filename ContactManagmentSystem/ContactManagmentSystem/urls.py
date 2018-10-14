@@ -20,7 +20,9 @@ urlpatterns = [
 
     # Deve extreme Controllers 
     url(r'^GetContactsData/$', app.views.GetContactsData, name='GetContactsData'),
-    url(r'^UpdateContactsData/$', app.views.UpdateContactsData, name='UpdateContactsData'),
+    
+    #url(r'^UpdateContactsData/(?P<ID>[-\w]+)/contact/(?P<contact>[-\w]+)/$', app.views.UpdateContactsData, name='UpdateContactsData'),
+    url(r'^UpdateContactsData/(?P<ID>[-\w]+)/(?P<Fname>[\w\-]*)/(?P<Mname>[\w\-]*)/(?P<Lname>[\w\-]*)/(?P<csrfmiddlewaretoken>[\w\-]*)/$', app.views.UpdateContactsData, name='UpdateContactsData'),
     #path('Edit/<int:id>/' ,app.views.EditContact, name='getAllContactData'),
     #CRUD FOR CONTACT
     url(r'^New$', app.views.CreateContact, name='NewContact'),
@@ -30,10 +32,13 @@ urlpatterns = [
     url(r'^Edit/(?P<pk>\d+)/$', app.views.EditContact, name='getAllContactData'),
     #CRUD FOR ADDRESS
     #url(r'^Update/(?P<pk>\d+)/$', app.views.UpdateAddress, name='UpdateAddress'),
-    url(r'^UpdateAddress/$', app.views.UpdateAddress, name='UpdateAddress'),
+    url(r'^UpdateAddress/(?P<pk>\d+)/$', app.views.UpdateAddress, name='UpdateAddress'),
+    url(r'^Delete/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteAddress, name='DeleteAddress'),
+    url(r'^AddNewAddress/$', app.views.NewAddress, name='NewAddress'),
     #url(r'^SaveContact/(?P<pk>\d+)/$', app.views.SaveContact, name='SaveContact'),
     # Examples:
     url(r'^$', app.views.home, name='home'),
+    url(r'^search', app.views.search, name='search'),
     url(r'^loadData$', app.views.loadData, name='loadData'),
     url(r'^contact$', app.views.contact, name='contact'),
     url(r'^about', app.views.about, name='about'),
