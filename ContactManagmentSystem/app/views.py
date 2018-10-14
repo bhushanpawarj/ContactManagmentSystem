@@ -76,137 +76,28 @@ def search(request,searchText=None):
     )
 
 
-#Deve xtreme controllers
-def UpdateContactsData(request,ID,Fname,Mname,Lname,csrfmiddlewaretoken):
-    #ID=request.POST.get('ID')
-    #contact=request.POST.get['contact']
-    #contact=request.POST.getlist['contact']
-    #contact=request.POST.getjson['contact']
-
-    #contactInfo=json.loads(request.body)
-
-    ContactToSave=Contacts.objects.get(pk=ID)
-    ContactToSave.Fname=Fname
-    ContactToSave.Mname=Mname
-    ContactToSave.Lname=Lname
-    try:
-        ContactToSave.save()
-    except e:
-        print(e)
-
-
-         #SaveOrNot=True
-    # except:
-        #SaveOrNot=False
-
-
-    return HttpResponse('')
-
-
 
 def CreateContact(request):
-    form=ContactForm(request.POST or None)
 
+
+    form=ContactForm(request.POST or None )
     if form.is_valid():
         form.save()
-        return redirect('home')
-    return render(request ,'app/CreateContactForm.html', {'form' : form })
+    return render(request ,'app/ContactEdit.html', {'form' : form  })
 
 def UpdateContact(request,pk):
     Contact=Contacts.objects.get(id=pk)
-    #AddressForms=[]
     AllAddress=Address.objects.filter(Contact_id=pk)
     AllPhones=Phone.objects.filter(Contact_id=pk)
     AllDates=Date.objects.filter(Contact_id=pk)
 
     form=ContactForm(request.POST or None ,instance=Contact)
-    #creating address model form 
-    #for A in AllAddress:
-    #    ADF=AddressForm(request.POST or None ,instance=A)
-    #    AddressForms.append(ADF)
-    #    if ADF.is_valid():
-    #        ADF.save()
-
-    
-
-   
-
-    #addressform=AddressForm(request.POST or None ,instance=Contact)
     if form.is_valid():
         form.save()
         #addressform.save()
         #return redirect('home')
 
-    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress  })
-
-def RetriveJson(request):
-    #Contact=Contacts.objects.filter(pk=pk)
-    Contact=Contacts.objects.all().select_related('addresses')
-    serializedData=ContactsSerializer(Contact,many=True)
-    
-
-    return JsonResponse(serializedData.data,safe=False)
-def GetContactsData(request):
-    #Contact=Contacts.objects.filter(pk=pk)
-    Contact=Contacts.objects.all()
-    serializedData=ContactsSerializer(Contact,many=True)
-  
-    return JsonResponse(serializedData.data,safe=False)
-
-def NewAddress(request):
-    #Contact=Contacts.objects.get(pk=ContactId)
-    form=AddressForm(request.POST or None )
-    #contact=Contacts.objects.get(pk=ContactId)
-    #form.Contact_id_id=ContactId
-    if form.is_valid():
-        form.save()
-        return redirect('home')
-    return render(request ,'app/CreateContactForm.html', {'form' : form })
-
-
-def UpdateAddress(request,pk):
-    #AddressId=request.POST['AddressId']
-    #AddressToSave=Address.objects.get(pk=AddressId)
-    #AddressToSave.Address_type=request.POST['Address_type']
-    #AddressToSave.Address=request.POST['Address']
-    #AddressToSave.City=request.POST['City']
-    #AddressToSave.State=request.POST['State']
-    #AddressToSave.Zip=request.POST['Zip']
-    #try:
-    #    AddressToSave.save()
-    #except e:
-    #    print(e)
-
-
-    #     #SaveOrNot=True
-    ## except:
-    #    #SaveOrNot=False
-
-
-    #return HttpResponse('')
-    #return render(request ,'app/ContactEdit.html', {'SaveOrNot' : SaveOrNot})
-
-
-
-    Add=Address.objects.get(id=pk)
-    form=AddressForm(request.POST or None ,instance=Add)
-    if form.is_valid():
-        form.save()
-        #addressform.save()
-        #return redirect('home')
-
-    return render(request ,'app/AddOrUpdateAddress.html', {'form' : form ,'Address':Add})
-
-def DeleteAddress(request,pk,ContactId):
-    Add=Address.objects.get(id=pk)
-    Add.delete()
-    Contact=Contacts.objects.get(id=ContactId)
-    form=ContactForm(request.POST or None ,instance=Contact)
-    AllAddress=Address.objects.filter(Contact_id=ContactId)
-    AllPhones=Phone.objects.filter(Contact_id=ContactId)
-    AllDates=Date.objects.filter(Contact_id=ContactId)
-    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress  })
-
+    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress ,'AllPhones':AllPhones,'AllDates':AllDates })
 
 def DeleteContact(request,pk):
     Contact=Contacts.objects.get(id=pk)
@@ -229,6 +120,97 @@ def EditContact(request,pk):
             'AllDates':AllDates,
         }
     )
+
+def RetriveJson(request):
+    #Contact=Contacts.objects.filter(pk=pk)
+    Contact=Contacts.objects.all().select_related('addresses')
+    serializedData=ContactsSerializer(Contact,many=True)
+    
+
+    return JsonResponse(serializedData.data,safe=False)
+def GetContactsData(request):
+    #Contact=Contacts.objects.filter(pk=pk)
+    Contact=Contacts.objects.all()
+    serializedData=ContactsSerializer(Contact,many=True)
+  
+    return JsonResponse(serializedData.data,safe=False)
+
+def NewAddress(request):
+    form=AddressForm(request.POST or None )
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+    return render(request ,'app/CreateContactForm.html', {'form' : form })
+
+def NewPhone(request):
+    form=PhoneForm(request.POST or None )
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+    return render(request ,'app/CreateContactForm.html', {'form' : form })
+
+def NewDate(request):
+    form=DateForm(request.POST or None )
+    if form.is_valid():
+        form.save()
+        return redirect('home')
+    return render(request ,'app/CreateContactForm.html', {'form' : form })
+
+
+def UpdateAddress(request,pk):
+    Add=Address.objects.get(id=pk)
+    form=AddressForm(request.POST or None ,instance=Add)
+    if form.is_valid():
+        form.save()
+    return render(request ,'app/AddOrUpdateAddress.html', {'form' : form ,'Address':Add})
+
+def UpdatePhone(request,pk):   
+    Ph=Phone.objects.get(id=pk)
+    form=PhoneForm(request.POST or None ,instance=Ph)
+    if form.is_valid():
+        form.save()
+    return render(request ,'app/AddOrUpdateAddress.html', {'form' : form ,'Address':Ph})
+def UpdateDate(request,pk):
+    
+    Dt=Date.objects.get(id=pk)
+    form=PhoneForm(request.POST or None ,instance=Dt)
+    if form.is_valid():
+        form.save()
+    return render(request ,'app/AddOrUpdateAddress.html', {'form' : form ,'Address':Dt})
+
+def DeleteAddress(request,pk=None,ContactId=None):
+    Add=Address.objects.get(id=pk)
+    Add.delete()
+    Contact=Contacts.objects.get(id=ContactId)
+    form=ContactForm(request.POST or None ,instance=Contact)
+    AllAddress=Address.objects.filter(Contact_id=ContactId)
+    AllPhones=Phone.objects.filter(Contact_id=ContactId)
+    AllDates=Date.objects.filter(Contact_id=ContactId)
+    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress ,'AllPhones':AllPhones,'AllDates':AllDates })
+
+
+def DeletePhone(request,pk=None,ContactId=None):
+    Ph=Phone.objects.get(id=pk)
+    Ph.delete()
+    Contact=Contacts.objects.get(id=ContactId)
+    form=ContactForm(request.POST or None ,instance=Contact)
+    AllAddress=Address.objects.filter(Contact_id=ContactId)
+    AllPhones=Phone.objects.filter(Contact_id=ContactId)
+    AllDates=Date.objects.filter(Contact_id=ContactId)
+    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress ,'AllPhones':AllPhones,'AllDates':AllDates })
+
+def DeleteDate(request,pk=None,ContactId=None):
+    Dt=Date.objects.get(id=pk)
+    Dt.delete()
+    Contact=Contacts.objects.get(id=ContactId)
+    form=ContactForm(request.POST or None ,instance=Contact)
+    AllAddress=Address.objects.filter(Contact_id=ContactId)
+    AllPhones=Phone.objects.filter(Contact_id=ContactId)
+    AllDates=Date.objects.filter(Contact_id=ContactId)
+    return render(request ,'app/ContactEdit.html', {'form' : form ,'Contact':Contact,'AllAddress' : AllAddress,'AllPhones':AllPhones,'AllDates':AllDates  })
+
+
+
 def SaveContact(request,Fname,Mname,Lname,pk=None):
         try:
             Contact=Contacts.objects.filter(pk=pk)

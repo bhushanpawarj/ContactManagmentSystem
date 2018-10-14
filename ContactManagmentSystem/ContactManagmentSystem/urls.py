@@ -17,24 +17,29 @@ admin.autodiscover()
 
 urlpatterns = [
 
-
-    # Deve extreme Controllers 
-    url(r'^GetContactsData/$', app.views.GetContactsData, name='GetContactsData'),
     
-    #url(r'^UpdateContactsData/(?P<ID>[-\w]+)/contact/(?P<contact>[-\w]+)/$', app.views.UpdateContactsData, name='UpdateContactsData'),
-    url(r'^UpdateContactsData/(?P<ID>[-\w]+)/(?P<Fname>[\w\-]*)/(?P<Mname>[\w\-]*)/(?P<Lname>[\w\-]*)/(?P<csrfmiddlewaretoken>[\w\-]*)/$', app.views.UpdateContactsData, name='UpdateContactsData'),
-    #path('Edit/<int:id>/' ,app.views.EditContact, name='getAllContactData'),
     #CRUD FOR CONTACT
     url(r'^New$', app.views.CreateContact, name='NewContact'),
     url(r'^Update/(?P<pk>\d+)/$', app.views.UpdateContact, name='UpdateContact'),
     url(r'^RetriveJson/$', app.views.RetriveJson, name='RetriveJson'),
     url(r'^Delete/(?P<pk>\d+)/$', app.views.DeleteContact, name='DeleteContact'),
     url(r'^Edit/(?P<pk>\d+)/$', app.views.EditContact, name='getAllContactData'),
+    
     #CRUD FOR ADDRESS
-    #url(r'^Update/(?P<pk>\d+)/$', app.views.UpdateAddress, name='UpdateAddress'),
     url(r'^UpdateAddress/(?P<pk>\d+)/$', app.views.UpdateAddress, name='UpdateAddress'),
-    url(r'^Delete/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteAddress, name='DeleteAddress'),
-    url(r'^AddNewAddress/$', app.views.NewAddress, name='NewAddress'),
+    url(r'^DeleteAddress/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteAddress, name='DeleteAddress'),
+    url(r'^NewAddress/$', app.views.NewAddress, name='NewAddress'),
+
+    #CRUD FOR PHONE
+    url(r'^UpdatePhone/(?P<pk>\d+)/$', app.views.UpdatePhone, name='UpdatePhone'),
+    url(r'^DeletePhone/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeletePhone, name='DeletePhone'),
+    url(r'^NewPhone/$', app.views.NewPhone, name='NewPhone'),
+
+    #CRUD FOR DATE
+    url(r'^UpdateDate/(?P<pk>\d+)/$', app.views.UpdateDate, name='UpdateDate'),
+    url(r'^Delete/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteDate, name='DeleteDate'),
+    url(r'^NewDate/$', app.views.NewDate, name='NewDate'),
+
     #url(r'^SaveContact/(?P<pk>\d+)/$', app.views.SaveContact, name='SaveContact'),
     # Examples:
     url(r'^$', app.views.home, name='home'),

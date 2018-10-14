@@ -5,6 +5,10 @@ Definition of models.
 from django.db import models
 
 PHONE_CHOICES=(('Phone Type','Phone Type'),('Home','Home'),('Work','Work'),('Cell','Cell'),('Other','Other'))
+DATE_CHOICES=(('Date Type','Date Type'),('birthdate','birthdate'),('Other','Other'))
+ADDRESS_CHOICES=(('Address Type','Address Type'),('Home','Home'),('Work','Work'),('Other','Other'))
+
+
 
 
 # Create your models here.
@@ -17,7 +21,7 @@ class Contacts(models.Model):
 
 class Date (models.Model):
     Contact_id=models.ForeignKey(Contacts,on_delete=models.CASCADE,related_name='dates')
-    Date_type=models.CharField(max_length=30,null=True)
+    Date_type=models.CharField(max_length=30,choices=DATE_CHOICES,null=True)
     Date=models.DateTimeField(null=True)
 
 class Phone(models.Model):
@@ -28,7 +32,7 @@ class Phone(models.Model):
 
 class Address(models.Model):
     Contact_id=models.ForeignKey(Contacts,on_delete=models.CASCADE,related_name='addresses')
-    Address_type=models.CharField(max_length=30,null=True)
+    Address_type=models.CharField(max_length=30,choices=ADDRESS_CHOICES, null=True)
     Address=models.CharField(max_length=200,null=True)
     City=models.CharField(max_length=20,null=True)
     State=models.CharField(max_length=20,null=True)

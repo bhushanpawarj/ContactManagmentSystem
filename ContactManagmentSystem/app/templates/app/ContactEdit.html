@@ -7,40 +7,43 @@
 </div>
  -->
 <div class="card p-4 mt-2"  id="editcard">
-     <div class=" row">
-        <div class="col-xl-6">
-            <h2>Updating Contact for ID :  <span id="ContactId">{{ Contact.id }}</span></h2>
-        </div>
-          <div class="col-xl-6">
-           <a role="button"  href="{% url 'DeleteContact' Contact.id %}" class="btn btn-secondary delete" id="{{ Contact.id }}">Delete Contact</a>
-          <!-- <a role="button"  href="{% url 'RetriveJson' %}" class="btn btn-secondary delete" id="{{ Contact.id }}">Retrive Json</a>-->
-
-        </div>
-        </div>
-        <hr/>
         <div class=" row">
             <div class="col-xl-12">
                 <div class="row">
                     <div class="col-xl-12 ">
                         <!--Begin -Include partial layout for contact update-->
-                            <h2>Contact Information</h2>
+                            <div class="row">
+                        <div class="col-xl-6">
+                                <h2>Contact Information</h2>
+                            </div>
+                        <div class="col-xl-6">
+                            {% if Contact %}
+                                 <a role="button"  href="{% url 'DeleteContact' Contact.id %}" class="btn btn-secondary delete float-right " id="{{ Contact.id }}">Delete Contact</a>
+                             {% endif %}
+                          </div>
+                        </div>
+                            
                             <hr/>
                         <form method="POST">
                             {% csrf_token %}
-                              <div class="row">
-                                <div class="col-xl-3 pt-2">
-                                  {{ form.Fname}}
-                                </div>
-                                <div class="col-xl-3 pt-2">
-                                  {{ form.Mname}}
-                                </div>
-                                <div class="col-xl-3 pt-2">
-                                   {{ form.Lname}}
-                                </div>
-                                  <div class="col-xl-3 pt-2">
-                                     <button id="SaveContact" type="submit" class="btn btn-secondary m-2 float-right" >Save</button>
-                                   </div>
-                              </div>
+                            <table class="table table-bordered">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">First Name</th>
+                                      <th scope="col">Middle Name</th>
+                                      <th scope="col">Last Name</th>
+                                        <th scope="col" style="width:5%">Actions</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th >{{form.Fname}}</th>
+                                      <td>{{form.Mname}}</td>
+                                      <td>{{form.Lname}}</td>
+                                        <td><button id="SaveContact" type="submit" class="btn btn-secondary m-2 float-right" >Save</button></td>
+                                    </tr>
+                                  </tbody>
+                                </table>
                         </form>
                         <!--End-Include partial layout for contact update-->
                     </div>
@@ -50,24 +53,26 @@
                                <h2>Address Information</h2>
                             </div>
                         <div class="col-xl-6">
-                          <a role="button"  class="btn btn-secondary float-right" href="{%url 'NewAddress'  %}"><i class="fas fa-user-plus"></i> Add New Address</a> 
+                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewAddress'  %}"><i class="fas fa-user-plus"></i> Add New Address</a> 
                         </div>
                            </div>
                             <hr/>
+                        {% if  AllAddress %}
                            <table class="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th scope="col">Address Id</th>
-                          <th scope="col">Address Type</th>
-                          <th scope="col">Address</th>
-                          <th scope="col">City</th>
-                          <th scope="col">State </th>
-                          <th scope="col">Zip </th>
-                          <th scope="col">Actions </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for Address in AllAddress %}
+                              <thead>
+                                <tr>
+                                  <th scope="col">Address Id</th>
+                                  <th scope="col">Address Type</th>
+                                  <th scope="col">Address</th>
+                                  <th scope="col">City</th>
+                                  <th scope="col">State </th>
+                                  <th scope="col">Zip </th>
+                                  <th scope="col">Actions </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                          
+                            {% for Address in AllAddress %}
                             <tr>
                               <td ><input type="text" class="form-control AddressId" value="{{ Address.id }}" disabled></td> 
                               <td >
@@ -104,54 +109,77 @@
                                 <a role="button"  href="{% url 'DeleteAddress' Address.id  Contact.id %}" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
                               </td> 
                             </tr>
-                        {% endfor %}
-                      </tbody>
-                </table>
+                            
+                          
+                          {% endfor %}
+                            </tbody>
+                      </table> 
+                      {% else %}
+                        <p>No record Associated with this Contact</p>
+                     {% endif %}
                     </div>
                     <div class="col-xl-12">
                           <!--Begin -Include partial layout for Phone update-->
+                           
+                        <div class="row">
+                        <div class="col-xl-6">
                             <h2>Phone Information</h2>
+                            </div>
+                        <div class="col-xl-6">
+                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewPhone'  %}"><i class="fas fa-user-plus"></i> Add New Phone</a> 
+                        </div>
+                        </div>
                             <hr/>
-                        {% for form in forms %}
-                        {{form}}
-                        {% endfor %}
-
-
-
+                        {% if AllPhones%}
                 <table class="table table-bordered">
                       <thead>
                         <tr>
                           <th scope="col">Phone Type</th>
                           <th scope="col">Area Code </th>
                           <th scope="col">Number</th>
+                          <th scope="col" style="width:20%">Actions</th>
                         </tr>
                       </thead>
                       <tbody>
-                
+            
                         {% for Phone in AllPhones %}
                           <tr>
+
                                <td>{{Phone.Phone_type}}</td>
                                <td>{{PhonPhoneeForm.Area_code}}</td>
                                <td>{{Phone.Number}}</td>
-                               <td><PhoneForm type="submit">Save</PhoneForm></td>
+                               <td> 
+                                   <a role="button" target="_blank" href="{% url 'UpdatePhone' Phone.id %}" class="btn btn-secondary edit" id="{{ Address.id  }}"><i class="fas fa-user-edit"></i> Edit</a>
+                                    <a role="button"  href="{% url 'DeletePhone' Phone.id  Contact.id %}" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
+                             </td>
                              </tr>
                         {% endfor %}
                       </tbody>
                 </table>
-                              
+                    {%else %}
+                        <p>No record Associated with this Contact</p>
+                    {% endif %}
                          <!--End-Include partial layout for Phone update-->
                     </div>
                     <div class="col-xl-12">
                          <!--Begin--Partial View for Date -->
-                                <h2>Date Information</h2>
+                               <div class="row">
+                                <div class="col-xl-6"> 
+                                       <h2>Date Information</h2>
+                                </div>
+                                   <div class="col-xl-6">
+                                      <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewDate'  %}"><i class="fas fa-user-plus"></i> Add New Date</a> 
+                                    </div>
+                               </div>
                                 <hr/>
-                        {% if  AllDates %}
+                                {% if  AllDates %}
                                   <table class="table table-bordered">
                                   <thead>
                                     <tr>
 
                                       <th scope="col">Date Type</th>
                                       <th scope="col">Date </th>
+                                      <th scope="col" style="width:20%">Actions</th>
                                     </tr>
                                   </thead>
                                   <tbody>
@@ -159,7 +187,7 @@
                                       {% for Date in AllDates %}
                                         <tr>
                                           <td >
-                                              <select class="form-control" >
+                                              <select class="form-control" disabled>
                                                {% ifequal Date.Date_type 'Date type'  %}
                                                   <option selected>Date type</option>
                                                 {% else  %}
@@ -177,8 +205,11 @@
                                                 {% endifequal %}
                                              </select>
                                           </td> 
-                                          <td ><input type="text" class="form-control" value="{{ Date.Date }}" ></td> 
-               
+                                          <td ><input type="text" class="form-control" value="{{ Date.Date }}" disabled></td> 
+                                    <td> 
+                                   <a role="button" target="_blank" href="{% url 'UpdateDate' Date.id %}" class="btn btn-secondary edit" id="{{ Address.id  }}"><i class="fas fa-user-edit"></i> Edit</a>
+                                    <a role="button"  href="{% url 'DeleteDate' Date.id  Contact.id %}" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
+                                      </td>
                                         </tr>
                                     {% endfor %}
                                   </tbody>
