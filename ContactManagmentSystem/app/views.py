@@ -135,21 +135,30 @@ def GetContactsData(request):
   
     return JsonResponse(serializedData.data,safe=False)
 
-def NewAddress(request):
-    form=AddressForm(request.POST or None )
+def NewAddress(request,ContactId):
+    add=Address()
+    contact=Contacts.objects.get(pk=ContactId)
+    add.Contact_id=contact
+    form=AddressForm(request.POST or None ,instance=add)
     if form.is_valid():
         form.save()
         return redirect('home')
     return render(request ,'app/CreateContactForm.html', {'form' : form })
 
-def NewPhone(request):
+def NewPhone(request,ContactId):
+    ph=Phone()
+    contact=Contacts.objects.get(pk=ContactId)
+    ph.Contact_id=contact
     form=PhoneForm(request.POST or None )
     if form.is_valid():
         form.save()
         return redirect('home')
     return render(request ,'app/CreateContactForm.html', {'form' : form })
 
-def NewDate(request):
+def NewDate(request,ContactId):
+    dt=Date()
+    contact=Contacts.objects.get(pk=ContactId)
+    dt.Contact_id=contact
     form=DateForm(request.POST or None )
     if form.is_valid():
         form.save()

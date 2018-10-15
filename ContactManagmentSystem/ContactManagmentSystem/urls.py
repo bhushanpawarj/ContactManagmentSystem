@@ -28,17 +28,17 @@ urlpatterns = [
     #CRUD FOR ADDRESS
     url(r'^UpdateAddress/(?P<pk>\d+)/$', app.views.UpdateAddress, name='UpdateAddress'),
     url(r'^DeleteAddress/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteAddress, name='DeleteAddress'),
-    url(r'^NewAddress/$', app.views.NewAddress, name='NewAddress'),
+    url(r'^NewAddress/(?P<ContactId>\d+)$', app.views.NewAddress, name='NewAddress'),
 
     #CRUD FOR PHONE
     url(r'^UpdatePhone/(?P<pk>\d+)/$', app.views.UpdatePhone, name='UpdatePhone'),
     url(r'^DeletePhone/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeletePhone, name='DeletePhone'),
-    url(r'^NewPhone/$', app.views.NewPhone, name='NewPhone'),
+    url(r'^NewPhone(?P<ContactId>\d+)/$', app.views.NewPhone, name='NewPhone'),
 
     #CRUD FOR DATE
     url(r'^UpdateDate/(?P<pk>\d+)/$', app.views.UpdateDate, name='UpdateDate'),
     url(r'^Delete/(?P<pk>\d+)/(?P<ContactId>\d+)$', app.views.DeleteDate, name='DeleteDate'),
-    url(r'^NewDate/$', app.views.NewDate, name='NewDate'),
+    url(r'^NewDate/(?P<ContactId>\d+)$', app.views.NewDate, name='NewDate'),
 
     #url(r'^SaveContact/(?P<pk>\d+)/$', app.views.SaveContact, name='SaveContact'),
     # Examples:

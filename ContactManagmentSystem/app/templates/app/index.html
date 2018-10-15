@@ -94,27 +94,33 @@
                              <!--For Address Lop-->
                                 <td >{% with contact.addresses.all as addresses %}
                                         {% for add in addresses %}
+                                       {% if add.Address %}
                                           <span>  {{ add.Address }} , </span>
-                                            {% empty %}
-                                            ''
+                                      {%  else %}
+                                          <p></p>
+                                        {% endif %}
                                         {% endfor %}
                                     {% endwith %}
                                 </td>
                                 <!--For phones loop-->
                                    <td >{% with contact.phones.all as phones %}
                                         {% for phone in phones %}
+                                        {% if phone.Area_code and phone.Number%}
                                           <span> {{phone.Area_code}}-{{ phone.Number }} , </span>
-                                            {% empty %}
-                                            ''
+                                        {% else %}
+                                           <p></p>
+                                        {% endif %}
                                         {% endfor %}
                                     {% endwith %}
                                 </td>
                                 <!--For dates loop-->
                                 <td >{% with contact.dates.all as dates %}
                                         {% for date in dates %}
+                                        {% if date.Date %}
                                           <span> {{ date.Date }} , </span>
-                                            {% empty %}
-                                            ''
+                                           {% else %}
+                                        <p></p>
+                                        {% endif %}
                                         {% endfor %}
                                     {% endwith %}
                                 </td>

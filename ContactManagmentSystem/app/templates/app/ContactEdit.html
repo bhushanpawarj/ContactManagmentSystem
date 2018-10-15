@@ -53,7 +53,7 @@
                                <h2>Address Information</h2>
                             </div>
                         <div class="col-xl-6">
-                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewAddress'  %}"><i class="fas fa-user-plus"></i> Add New Address</a> 
+                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewAddress' Contact.id  %}"><i class="fas fa-user-plus"></i> Add New Address</a> 
                         </div>
                            </div>
                             <hr/>
@@ -126,7 +126,7 @@
                             <h2>Phone Information</h2>
                             </div>
                         <div class="col-xl-6">
-                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewPhone'  %}"><i class="fas fa-user-plus"></i> Add New Phone</a> 
+                          <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewPhone' Contact.id  %}"><i class="fas fa-user-plus"></i> Add New Phone</a> 
                         </div>
                         </div>
                             <hr/>
@@ -168,7 +168,7 @@
                                        <h2>Date Information</h2>
                                 </div>
                                    <div class="col-xl-6">
-                                      <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewDate'  %}"><i class="fas fa-user-plus"></i> Add New Date</a> 
+                                      <a role="button" target="_blank" class="btn btn-secondary float-right" href="{%url 'NewDate' Contact.id %}"><i class="fas fa-user-plus"></i> Add New Date</a> 
                                     </div>
                                </div>
                                 <hr/>
@@ -205,7 +205,7 @@
                                                 {% endifequal %}
                                              </select>
                                           </td> 
-                                          <td ><input type="text" class="form-control" value="{{ Date.Date }}" disabled></td> 
+                                          <td >{{ Date.Date }}</td> 
                                     <td> 
                                    <a role="button" target="_blank" href="{% url 'UpdateDate' Date.id %}" class="btn btn-secondary edit" id="{{ Address.id  }}"><i class="fas fa-user-edit"></i> Edit</a>
                                     <a role="button"  href="{% url 'DeleteDate' Date.id  Contact.id %}" class="btn btn-secondary" id="{{ Address.id  }}">Delete</a>
@@ -232,12 +232,15 @@
  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
 <script>
     $(function () {
-       
+       var inputs, index;
+
+            inputs = document.getElementsByTagName('input');
+            for (index = 0; index < inputs.length; ++index) {
+                inputs[index].classList.add("form-control");
+            }
     });
    function updateAddress(element) {
-            //e.preventDefault();
-            //var ButtonId = this.id;
-       //var d = $("'#" + ButtonId + "'");
+            
        console.log(element);
        //this = element;
             var e = $(element).parent().parent();
