@@ -3,6 +3,11 @@
 {% block content %}
 <style>
       /* Begin -Adding it for floating scroll button */
+      .highlight{
+            font-weight:bold;
+            color:green;
+            background-color:yellow;
+}
     #scroll {
                 position: fixed;
                 right: 10px;
@@ -60,7 +65,7 @@
         </div>
         <div class="col-xl-8">
                 <form class="form-inline " action="" method="GET">
-                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{request.GET.query}}">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="search" value="{{request.GET.query}}">
                   <button class="btn btn-outline-success " type="submit" >Search</button>
                 </form>
          </div>
@@ -302,4 +307,15 @@
      </div>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"> </script>
 <!-- End Edit/UPdate contact-->
+
+<script>
+    if($('#search').val().length !== 0){
+        $('.table').each(function () {
+            var searchString = $('#search').val();
+            var pattern = new RegExp(searchString, 'gi');
+       $(this).html($(this).html().replace(pattern,"<span class = 'highlight'>"+searchString+"</span>"));
+     });
+    }
+
+</script>
 {% endblock %}
